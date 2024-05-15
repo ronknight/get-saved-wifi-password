@@ -1,4 +1,4 @@
-# WiFi Password Retriever
+# Saved WiFi Password Retriever
 
 This Python script retrieves and displays the names and passwords of all saved WiFi profiles on a Windows machine.
 
