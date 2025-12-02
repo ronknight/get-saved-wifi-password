@@ -27,22 +27,37 @@
 
 ## Requirements
 - Python 3.x
-- Windows Operating System
+- Windows or macOS Operating System
 
 ## Usage
-1. Save the `get_wifi.py`  script to your local machine.
+1. Save the `get_wifi.py` script to your local machine.
 2. Open a terminal or command prompt and navigate to the directory where the script is saved.
-3. Run the script using the following command:python get_wifi.py
-The script will output the names and corresponding passwords of all saved WiFi profiles on your system.
+3. Run the script using the following command:
+   ```bash
+   python get_wifi.py
+   ```
+4. The script will output the names and corresponding passwords of all saved WiFi profiles on your system.
+
+**Note for macOS Users:**
+You may be prompted to enter your system username and password to allow access to the Keychain for each Wi-Fi network. This is a system security feature.
+To avoid these prompts, try running the script with `sudo`:
+```bash
+sudo python3 get_wifi.py
+```
+If prompts still appear, you may need to click **"Allow"** (or **"Always Allow"** if available) for each network. The script explicitly targets the System keychain when running with `sudo` to minimize this.
 
 ## Script
-The script uses the `subprocess` module to run Windows commands (`netsh`) to retrieve information about the saved WiFi profiles. Here's a breakdown of the steps:
+The script uses the `subprocess` module to run system commands to retrieve information about the saved WiFi profiles.
 
-1. The `netsh wlan show profiles`  command is executed to get a list of all saved WiFi profile names.
-2. For each profile name, the `netsh wlan show profile <name> key=clear`  command is executed to retrieve the password in plaintext.
-3. The password is extracted from the command output using regular expressions.
-4. The WiFi name and password are printed to the console.
-Note that the script requires administrative privileges to run the `netsh` commands successfully.
+### Windows
+1. The `netsh wlan show profiles` command is executed to get a list of all saved WiFi profile names.
+2. For each profile name, the `netsh wlan show profile <name> key=clear` command is executed to retrieve the password in plaintext.
+
+### macOS
+1. The `networksetup -listpreferredwirelessnetworks en0` command is executed to get a list of saved Wi-Fi SSIDs.
+2. For each SSID, the `security find-generic-password -wa "SSID"` command is executed to retrieve the password from the Keychain.
+
+The password is extracted from the command output and printed to the console along with the WiFi name.
 
 ## Disclaimer
 This script is intended for educational purposes only. Accessing WiFi networks without proper authorization may be illegal in some jurisdictions. Use this script responsibly and only on networks where you have permission to do so.
